@@ -1,0 +1,16 @@
+name: HorsesGalore
+version: 1.0
+api-version: 1.16
+author: ForeverInColor
+main: me.foreverincolor.horsesgalore.Main
+
+commands:
+   horse:
+      description: commands to manage horses
+      usage: /horse [name | debug]
+   game:
+      description: commands to manage minigame
+      usage: /game (lobby | start | stop | checkstate | join | quit)
+   hrace:
+      description: commands for races
+      usage: /hrace [create | setdisplayname | setmin | setmax | addstart | removestart]

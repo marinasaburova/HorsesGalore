@@ -1,0 +1,18 @@
+# Connection to SQL database is currently not working! Update info
+# to match your database
+sql:
+   host: localhost
+   port: 3306
+   database: HorsesGalore
+   username: root
+   password: pwd
+   
+# Modify GUI settings here
+gui: 
+   inv-title: '&3Your Horses'
+   horse-item: HORSE_SPAWN_EGG
+
+# Modify taming settings here
+taming: 
+   limit: 10 
+   
