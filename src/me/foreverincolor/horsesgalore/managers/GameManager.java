@@ -9,7 +9,7 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.RaceDataManager;
+import me.foreverincolor.horsesgalore.files.RaceData;
 import me.foreverincolor.horsesgalore.gui.PickHorseGUI;
 import me.foreverincolor.horsesgalore.tasks.GameStartCountdownTask;
 import me.foreverincolor.horsesgalore.tasks.LobbyCountdownTask;
@@ -20,7 +20,7 @@ public class GameManager {
 	private Main plugin;
 	private final PlayerManager playerManager;
 	private final HorseManager horseManager;
-	private final RaceDataManager raceData;
+	private final RaceData raceData;
 	private GameStartCountdownTask gameStartCountdownTask;
 	private LobbyCountdownTask lobbyCountdownTask;
 
@@ -28,6 +28,7 @@ public class GameManager {
 	private HashMap<Player, Horse> horses = new HashMap<Player, Horse>();
 
 	public GameState gameState = GameState.INACTIVE;
+	private String raceName = "race1";
 
 	// Game Constraints
 	private int min;
@@ -40,7 +41,7 @@ public class GameManager {
 
 		this.playerManager = new PlayerManager(this);
 		this.horseManager = new HorseManager(plugin);
-		this.raceData = new RaceDataManager(plugin);
+		this.raceData = new RaceData(plugin);
 
 		loadData();
 
@@ -153,6 +154,11 @@ public class GameManager {
 	// Controls the timer with regards to players joining/quitting and game state
 	// changing
 	private void checkTimer() {
+		if (!checkStartLocations()) { 
+			Bukkit.broadcastMessage(Utils.chat("&c&lThis race does not have enough start locations set. "));
+			return; 
+		}
+		
 		Bukkit.broadcastMessage(Utils.chat("Number of players: " + players.size()));
 
 		if (players.size() >= min) {
@@ -180,14 +186,27 @@ public class GameManager {
 
 	// load data from config
 	private void loadData() {
-		String raceName = "race1";
 
 		min = raceData.getConfig().getInt("races." + raceName + ".min-players");
 		max = raceData.getConfig().getInt("races." + raceName + ".max-players");
 		startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
 	}
 
+	private boolean checkStartLocations() {
+
+		if (raceData.getConfig().getStringList("races." + raceName + ".start-locations") != null) {
+			List<String> startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
+			if (startList.size() >= min) {
+				return true;
+			} else
+				return false;
+		} else {
+			return false;
+		}
+	}
+
 	public PlayerManager getPlayerManager() {
 		return playerManager;
 	}
+
 }

@@ -10,18 +10,18 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.DataManager;
+import me.foreverincolor.horsesgalore.files.HorseData;
 
 public class HorseManager {
 
 	// Declare any variables here
 	private Main plugin;
-	private final DataManager horseData;
+	private final HorseData horseData;
 
 	// CONSTRUCTOR
 	public HorseManager(Main plugin) {
 		this.plugin = plugin;
-		this.horseData = new DataManager(plugin);
+		this.horseData = new HorseData(plugin);
 	}
 
 	// METHODS to do stuff

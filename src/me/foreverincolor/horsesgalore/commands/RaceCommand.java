@@ -9,24 +9,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.RaceCreator;
-import me.foreverincolor.horsesgalore.files.RaceDataManager;
-import me.foreverincolor.horsesgalore.managers.GameManager;
+import me.foreverincolor.horsesgalore.managers.RaceManager;
 import me.foreverincolor.horsesgalore.utils.Utils;
 
 public class RaceCommand implements CommandExecutor {
 
 	@SuppressWarnings("unused")
-	private GameManager gameManager;
-	private RaceDataManager file;
 	private Main plugin;
+	private RaceManager raceManager; 
 
 	// Constructors
-	public RaceCommand(Main p, GameManager g) {
-		plugin = p;
-		gameManager = g;
+	public RaceCommand(Main plugin, RaceManager r) {
+		this.plugin = plugin;
+		this.raceManager = r;
 
-		this.file = new RaceDataManager(p);
+		plugin.getCommand("hrace").setExecutor(this);
 
 	}
 
@@ -42,8 +39,6 @@ public class RaceCommand implements CommandExecutor {
 				return true;
 			}
 
-			RaceCreator race = new RaceCreator(plugin, file);
-
 			// View all available races
 			if (args.length == 0) {
 				p.sendMessage(Utils.chat("&dIn the future, you will see a list of all races here."));
@@ -54,7 +49,7 @@ public class RaceCommand implements CommandExecutor {
 			// REMOVE LATER, for DEBUG
 			if (args[0].equalsIgnoreCase("list")) {
 				Set<String> races = new HashSet<String>();
-				races = race.getAllRaces();
+				races = raceManager.getAllRaces();
 				p.sendMessage(Utils.chat("&7Your races are: &e"));
 				for (String r : races) {
 					p.sendMessage(r);
@@ -71,7 +66,7 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				race.createRace(args[1]);
+				raceManager.createRace(args[1]);
 				p.sendMessage(Utils.chat("&aYour race " + args[1] + " &ahas been created"));
 				return true;
 			}
@@ -99,7 +94,7 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				race.setMinPlayers(args[1], min);
+				raceManager.setMinPlayers(args[1], min);
 				p.sendMessage(Utils.chat("&aMinimum players for " + args[1] + " &ahas been set to " + min));
 				return true;
 			}
@@ -127,7 +122,7 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				race.setMaxPlayers(args[1], max);
+				raceManager.setMaxPlayers(args[1], max);
 				p.sendMessage(Utils.chat("&aMaximum players for " + args[1] + " &ahas been set to " + max));
 				return true;
 			}
@@ -140,7 +135,7 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				race.setDisplayName(args[1], args[2]);
+				raceManager.setDisplayName(args[1], args[2]);
 				p.sendMessage(Utils.chat("&aDisplay name for " + args[1] + " &ahas been set to " + args[2]));
 				return true;
 			}
@@ -159,7 +154,7 @@ public class RaceCommand implements CommandExecutor {
 
 				String location = world + " " + x + " " + y + " " + z;
 
-				race.addStart(args[1], location);
+				raceManager.addStart(args[1], location);
 				p.sendMessage(Utils.chat("&A starting location has been added to " + args[1]));
 				return true;
 			}
@@ -167,7 +162,7 @@ public class RaceCommand implements CommandExecutor {
 			// REMOVE START POSITION
 			if (args[0].equalsIgnoreCase("removestart")) {
 				if (args.length != 3) {
-					p.sendMessage(Utils.chat("&cUsage: /hrace addstart <race-name> <start-num>"));
+					p.sendMessage(Utils.chat("&cUsage: /hrace removestart <race-name> <start-index>"));
 					return true;
 				}
 
@@ -177,13 +172,16 @@ public class RaceCommand implements CommandExecutor {
 				try {
 					index = Integer.parseInt(args[2]);
 				} catch (NumberFormatException e) {
-					p.sendMessage(Utils.chat("&cPlease enter a valid number for maximum players"));
+					p.sendMessage(Utils.chat("&cPlease enter a valid index"));
 					return true;
 				}
 
-				race.removeStart(args[1], index);
-				p.sendMessage(Utils.chat("&A starting location has been added to " + args[1]));
-				return true;
+				if (raceManager.removeStart(args[1], index)) { 
+				p.sendMessage(Utils.chat("&aA starting location has been added to " + args[1]));
+				return true; }
+				else { 
+					p.sendMessage(Utils.chat("&c Please enter an existing index."));
+				}
 			}
 
 			p.sendMessage(Utils.chat("&cThe command was not recognized."));

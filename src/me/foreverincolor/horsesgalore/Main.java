@@ -9,7 +9,7 @@ import me.foreverincolor.horsesgalore.commands.HorseCommand;
 import me.foreverincolor.horsesgalore.commands.HorseCommandCompleter;
 import me.foreverincolor.horsesgalore.commands.RaceCommand;
 import me.foreverincolor.horsesgalore.commands.RaceTabCompleter;
-import me.foreverincolor.horsesgalore.files.DataManager;
+import me.foreverincolor.horsesgalore.files.HorseData;
 import me.foreverincolor.horsesgalore.listeners.GameProtectListener;
 import me.foreverincolor.horsesgalore.listeners.HorseProtectListener;
 import me.foreverincolor.horsesgalore.listeners.InventoryClickListener;
@@ -18,6 +18,7 @@ import me.foreverincolor.horsesgalore.listeners.TameListener;
 import me.foreverincolor.horsesgalore.listeners.TrainingListener;
 import me.foreverincolor.horsesgalore.managers.GameManager;
 import me.foreverincolor.horsesgalore.managers.HorseManager;
+import me.foreverincolor.horsesgalore.managers.RaceManager;
 import me.foreverincolor.horsesgalore.sql.MySQL;
 import me.foreverincolor.horsesgalore.sql.SQLGetter;
 import me.foreverincolor.horsesgalore.utils.ConfigUtils;
@@ -27,10 +28,11 @@ public class Main extends JavaPlugin implements Listener {
 	public MySQL SQL;
 	public SQLGetter data;
 
-	public DataManager file;
+	public HorseData file;
 
 	private GameManager gameManager;
 	private HorseManager horseManager;
+	private RaceManager raceManager;
 
 	// Actions on plugin enable
 	@Override
@@ -48,11 +50,13 @@ public class Main extends JavaPlugin implements Listener {
 		// enables commands
 		getCommand("game").setExecutor(new GameCommand(gameManager));
 		getCommand("game").setTabCompleter(new GameTabCompleter());
-		getCommand("hrace").setExecutor(new RaceCommand(this, gameManager));
-		getCommand("hrace").setTabCompleter(new RaceTabCompleter(this));
 
-		// Loads files
-		file = new DataManager(this);
+		// RACES PART
+		raceManager = new RaceManager(this);
+
+		// enables commands
+		getCommand("hrace").setExecutor(new RaceCommand(this, raceManager));
+		getCommand("hrace").setTabCompleter(new RaceTabCompleter(this, raceManager));
 
 		// HORSES PART
 		horseManager = new HorseManager(this);
@@ -64,13 +68,12 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new TameListener(this, horseManager), this);
 
 		// enables commands
-		new HorseCommand(this, horseManager);
+		getCommand("horse").setExecutor(new HorseCommand(this, horseManager));
 		getCommand("horse").setTabCompleter(new HorseCommandCompleter());
 
-		// enables config
-		new ConfigUtils(this);
-
 		// other
+		file = new HorseData(this);
+		new ConfigUtils(this);
 		this.getServer().getPluginManager().registerEvents(this, this);
 		saveDefaultConfig();
 	}

@@ -11,13 +11,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.foreverincolor.horsesgalore.Main;
 
-public class DataManager {
+public class HorseData {
 
 	private Main plugin;
 	private FileConfiguration dataConfig = null;
 	private File configFile = null;
 
-	public DataManager(Main plugin) {
+	public HorseData(Main plugin) {
 		this.plugin = plugin;
 
 		// saves/initializes config

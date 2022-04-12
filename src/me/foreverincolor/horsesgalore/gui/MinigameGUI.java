@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.RaceDataManager;
+import me.foreverincolor.horsesgalore.files.RaceData;
 import me.foreverincolor.horsesgalore.utils.Utils;
 
 public class MinigameGUI implements Listener {
@@ -15,12 +15,12 @@ public class MinigameGUI implements Listener {
 	@SuppressWarnings("unused")
 	private static Main plugin;
 	@SuppressWarnings("unused")
-	private static RaceDataManager file;
+	private static RaceData file;
 
 	public static String inventory_name;
 
 	// Constructor
-	public MinigameGUI(Main plugin, RaceDataManager file) {
+	public MinigameGUI(Main plugin, RaceData file) {
 		MinigameGUI.plugin = plugin;
 		MinigameGUI.file = file;
 		Bukkit.getPluginManager().registerEvents(this, plugin);

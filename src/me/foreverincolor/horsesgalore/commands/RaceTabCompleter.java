@@ -10,23 +10,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.RaceCreator;
-import me.foreverincolor.horsesgalore.files.RaceDataManager;
+import me.foreverincolor.horsesgalore.managers.RaceManager;
 
 public class RaceTabCompleter implements TabCompleter {
 
 	List<String> arguments = new ArrayList<String>();
 	Set<String> races = new HashSet<String>();
 
+	@SuppressWarnings("unused")
 	private Main plugin;
-	private final RaceDataManager raceData;
-	RaceCreator race;
+	private final RaceManager raceManager;
 
-	public RaceTabCompleter(Main p) {
-		plugin = p;
-		raceData = new RaceDataManager(plugin);
-		race = new RaceCreator(plugin, raceData);
-
+	public RaceTabCompleter(Main plugin, RaceManager r) {
+		this.plugin = plugin;
+		raceManager = r;
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
@@ -40,9 +37,9 @@ public class RaceTabCompleter implements TabCompleter {
 		}
 
 		if (races.isEmpty()) {
-		races = race.getAllRaces();
+			races = raceManager.getAllRaces();
 		}
-		
+
 		List<String> result = new ArrayList<String>();
 
 		if (args.length == 1) {
@@ -67,7 +64,7 @@ public class RaceTabCompleter implements TabCompleter {
 				return result;
 			}
 		}
-		
+
 		return null;
 	}
 }
