@@ -1,6 +1,7 @@
 package me.foreverincolor.horsesgalore.files;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -90,8 +91,8 @@ public class RaceCreator {
 		file.saveConfig();
 
 	}
-	
-	public void removeStart(String raceName, int num) { 
+
+	public void removeStart(String raceName, int num) {
 		List<String> startList = new ArrayList<String>();
 		startList = file.getConfig().getStringList("races." + raceName + ".start-locations");
 		startList.remove(num);
@@ -142,10 +143,14 @@ public class RaceCreator {
 		return maxPlayers;
 
 	}
-	
-	public Set<String> getAllRaces() { 
-		Set<String> races = new HashSet<String>(); 
-		races = file.getConfig().getConfigurationSection("races").getKeys(false);
+
+	public Set<String> getAllRaces() {
+		Set<String> races = new HashSet<String>();
+		if (file.getConfig().getConfigurationSection("races") != null) {
+			races = file.getConfig().getConfigurationSection("races").getKeys(false);
+		} else {
+			races = Collections.<String>emptySet();
+		}
 		return races;
 	}
 

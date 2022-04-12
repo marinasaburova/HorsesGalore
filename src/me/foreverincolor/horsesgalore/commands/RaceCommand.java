@@ -141,7 +141,7 @@ public class RaceCommand implements CommandExecutor {
 				}
 
 				race.setDisplayName(args[1], args[2]);
-				p.sendMessage(Utils.chat("&Display name for " + args[1] + " &ahas been set to " + args[2]));
+				p.sendMessage(Utils.chat("&aDisplay name for " + args[1] + " &ahas been set to " + args[2]));
 				return true;
 			}
 

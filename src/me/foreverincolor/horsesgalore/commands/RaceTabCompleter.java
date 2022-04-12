@@ -55,7 +55,7 @@ public class RaceTabCompleter implements TabCompleter {
 		}
 
 		// Suggest existing race names
-		if ((args.length == 2)) {
+		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("setmin") || args[0].equalsIgnoreCase("setmax")
 					|| args[0].equalsIgnoreCase("setdisplayname") || args[0].equalsIgnoreCase("addstart")
 					|| args[0].equalsIgnoreCase("removestart")) {
@@ -67,7 +67,7 @@ public class RaceTabCompleter implements TabCompleter {
 				return result;
 			}
 		}
-
+		
 		return null;
 	}
 }
