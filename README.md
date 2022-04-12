@@ -20,3 +20,7 @@ Tame a horse as normal. You will get a free name tag to name the horse. If you h
 
 ### Notes: 
 This plugin is most certainly not complete yet, but I wanted to showcase my progress so far. Thanks for reading!
+
+## Tasks
+- [ ] Refactor race creation management
+- [ ] #1
