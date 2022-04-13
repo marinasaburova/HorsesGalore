@@ -66,14 +66,17 @@ public class RaceManager {
 	public boolean removeStart(String raceName, int num) {
 		List<String> startList = new ArrayList<String>();
 		startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
+		boolean success = false; 
 		try {
 			startList.remove(num);
 			raceData.getConfig().set("races." + raceName + ".start-locations", startList);
 			raceData.saveConfig();
-			return true; 
+			success = true; 
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return false; 
+			success = false; 
 		}
+		
+		return success;
 
 	}
 
@@ -122,6 +125,7 @@ public class RaceManager {
 	}
 
 	public Set<String> getAllRaces() {
+		raceData.reloadConfig();
 		Set<String> races = new HashSet<String>();
 		if (raceData.getConfig().getConfigurationSection("races") != null) {
 			races = raceData.getConfig().getConfigurationSection("races").getKeys(false);

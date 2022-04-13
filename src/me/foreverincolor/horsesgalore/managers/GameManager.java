@@ -154,11 +154,11 @@ public class GameManager {
 	// Controls the timer with regards to players joining/quitting and game state
 	// changing
 	private void checkTimer() {
-		if (!checkStartLocations()) { 
+		if (!checkStartLocations(players.size())) {
 			Bukkit.broadcastMessage(Utils.chat("&c&lThis race does not have enough start locations set. "));
-			return; 
+			return;
 		}
-		
+
 		Bukkit.broadcastMessage(Utils.chat("Number of players: " + players.size()));
 
 		if (players.size() >= min) {
@@ -186,21 +186,28 @@ public class GameManager {
 
 	// load data from config
 	private void loadData() {
-
+		raceData.reloadConfig();
 		min = raceData.getConfig().getInt("races." + raceName + ".min-players");
 		max = raceData.getConfig().getInt("races." + raceName + ".max-players");
 		startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
 	}
 
-	private boolean checkStartLocations() {
+	private boolean checkStartLocations(int players) {
 
 		if (raceData.getConfig().getStringList("races." + raceName + ".start-locations") != null) {
 			List<String> startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
-			if (startList.size() >= min) {
+			Bukkit.broadcastMessage(Utils.chat("&bThe start locations have been found."));
+			Bukkit.broadcastMessage(Utils.chat("&eThe start list size is: " + startList.size()));
+			Bukkit.broadcastMessage(Utils.chat("&eThe number of players is: " + players));
+			if (startList.size() >= players) {
 				return true;
 			} else
-				return false;
+				Bukkit.broadcastMessage(Utils.chat("&dThe start list size is: " + startList.size()));
+			Bukkit.broadcastMessage(Utils.chat("&dThe number of players is: " + players));
+			return false;
 		} else {
+			Bukkit.broadcastMessage(Utils.chat("&4The start list size is: " + startList.size()));
+			Bukkit.broadcastMessage(Utils.chat("&4The number of players is: " + players));
 			return false;
 		}
 	}

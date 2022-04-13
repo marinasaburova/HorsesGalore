@@ -36,9 +36,7 @@ public class RaceTabCompleter implements TabCompleter {
 			arguments.add("removestart");
 		}
 
-		if (races.isEmpty()) {
-			races = raceManager.getAllRaces();
-		}
+		races = raceManager.getAllRaces();
 
 		List<String> result = new ArrayList<String>();
 

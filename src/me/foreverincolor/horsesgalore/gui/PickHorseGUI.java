@@ -84,10 +84,19 @@ public class PickHorseGUI implements Listener {
 
 		// Finds horse that was clicked
 		Horse horse = horseManager.getHorse(p, slot);
+		
+		// Checks if horse has a saddle
+		if (horse.getInventory().getSaddle() != null) { 
+			// Adds horse to game
+			gameManager.addHorse(p, horse);
+			p.closeInventory();
+		} else { 
+			p.closeInventory(); 
+			p.sendMessage(Utils.chat("&cYour horse is not wearing a saddle! Please put one on to be able to race!"));
+		}
+		
 
-		// Adds horse to game
-		gameManager.addHorse(p, horse);
-		p.closeInventory();
+
 	}
 
 }

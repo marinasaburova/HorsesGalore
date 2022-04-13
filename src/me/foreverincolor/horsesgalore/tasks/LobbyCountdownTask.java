@@ -9,7 +9,7 @@ import me.foreverincolor.horsesgalore.managers.GameState;
 public class LobbyCountdownTask extends BukkitRunnable {
 
 	private GameManager gameManager;
-	private int timeLeft = 30; // read from config ?
+	private int timeLeft = 31; // read from config ?
 
 	public LobbyCountdownTask(GameManager g) {
 		gameManager = g;
@@ -30,7 +30,7 @@ public class LobbyCountdownTask extends BukkitRunnable {
 			return;
 		}
 
-		if ((timeLeft == 15) || (timeLeft == 10)) {
+		if ((timeLeft == 30) || (timeLeft == 15) || (timeLeft == 10)) {
 			Bukkit.broadcastMessage(timeLeft + " seconds left");
 		}
 

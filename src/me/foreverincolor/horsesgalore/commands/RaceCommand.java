@@ -16,7 +16,7 @@ public class RaceCommand implements CommandExecutor {
 
 	@SuppressWarnings("unused")
 	private Main plugin;
-	private RaceManager raceManager; 
+	private RaceManager raceManager;
 
 	// Constructors
 	public RaceCommand(Main plugin, RaceManager r) {
@@ -155,7 +155,7 @@ public class RaceCommand implements CommandExecutor {
 				String location = world + " " + x + " " + y + " " + z;
 
 				raceManager.addStart(args[1], location);
-				p.sendMessage(Utils.chat("&A starting location has been added to " + args[1]));
+				p.sendMessage(Utils.chat("&aA starting location has been added to " + args[1]));
 				return true;
 			}
 
@@ -166,22 +166,15 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				int index;
-
 				// Check for valid input
+				
 				try {
-					index = Integer.parseInt(args[2]);
+					raceManager.removeStart(args[1], Integer.parseUnsignedInt(args[2]));
+					p.sendMessage(Utils.chat("&aA starting location has been removed from " + args[1]));
 				} catch (NumberFormatException e) {
 					p.sendMessage(Utils.chat("&cPlease enter a valid index"));
-					return true;
 				}
-
-				if (raceManager.removeStart(args[1], index)) { 
-				p.sendMessage(Utils.chat("&aA starting location has been added to " + args[1]));
-				return true; }
-				else { 
-					p.sendMessage(Utils.chat("&c Please enter an existing index."));
-				}
+				return true; 
 			}
 
 			p.sendMessage(Utils.chat("&cThe command was not recognized."));
