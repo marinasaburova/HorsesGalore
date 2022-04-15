@@ -6,6 +6,15 @@ Now, horse speed and jump strength can be changed by training a horse. The more 
 The plugin has a minigame horse-racing aspect. Races can be created, and then players can join the race and pick which horse to race. This part is still very much under development and is not complete, although a single race can be run. 
 Most of this is done through commands, or can be done through the config files as well. In the future, I am planning on making this plugin more customizable, as well as adding MySQL support. 
 
+## Features: 
+- tame horses as normal 
+- gives players free nametag to easily name all horses
+- protects all tamed horses from accidental or purposeful player damage
+- prevents other players from riding or stealing your horse
+- view horse and details in interactive GUI
+- speed and jump strength training when riding 
+- create and configure a race minigame
+
 ## Info: 
 **API Version:** Spigot API 1.16</br>
 
