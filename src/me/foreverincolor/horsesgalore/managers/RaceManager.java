@@ -24,6 +24,10 @@ public class RaceManager {
 	}
 
 	// METHODS
+	public void reload() { 
+		raceData.reloadConfig();
+	}
+	
 	public void createRace(String raceName) {
 		raceData.getConfig().set("races." + raceName, raceName);
 		raceData.saveConfig();
@@ -66,16 +70,16 @@ public class RaceManager {
 	public boolean removeStart(String raceName, int num) {
 		List<String> startList = new ArrayList<String>();
 		startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
-		boolean success = false; 
+		boolean success = false;
 		try {
 			startList.remove(num);
 			raceData.getConfig().set("races." + raceName + ".start-locations", startList);
 			raceData.saveConfig();
-			success = true; 
+			success = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			success = false; 
+			success = false;
 		}
-		
+
 		return success;
 
 	}
@@ -133,6 +137,18 @@ public class RaceManager {
 			races = Collections.<String>emptySet();
 		}
 		return races;
+	}
+
+	public List<String> getStartLocations(String raceName) {
+		List<String> startList = new ArrayList<String>();
+		if (raceData.getConfig().contains("races." + raceName + ".start-locations")) {
+			startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
+		} else { 
+			startList = null; 
+		}
+
+		return startList;
+
 	}
 
 }

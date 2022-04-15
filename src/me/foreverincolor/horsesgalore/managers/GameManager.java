@@ -9,7 +9,6 @@ import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.horsesgalore.Main;
-import me.foreverincolor.horsesgalore.files.RaceData;
 import me.foreverincolor.horsesgalore.gui.PickHorseGUI;
 import me.foreverincolor.horsesgalore.tasks.GameStartCountdownTask;
 import me.foreverincolor.horsesgalore.tasks.LobbyCountdownTask;
@@ -18,15 +17,19 @@ import me.foreverincolor.horsesgalore.utils.Utils;
 public class GameManager {
 
 	private Main plugin;
+	
+	// Managers
 	private final PlayerManager playerManager;
 	private final HorseManager horseManager;
-	private final RaceData raceData;
+	private final RaceManager raceManager;
+	
+	// Tasks
 	private GameStartCountdownTask gameStartCountdownTask;
 	private LobbyCountdownTask lobbyCountdownTask;
 
+	// Variables
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private HashMap<Player, Horse> horses = new HashMap<Player, Horse>();
-
 	public GameState gameState = GameState.INACTIVE;
 	private String raceName = "race1";
 
@@ -41,12 +44,13 @@ public class GameManager {
 
 		this.playerManager = new PlayerManager(this);
 		this.horseManager = new HorseManager(plugin);
-		this.raceData = new RaceData(plugin);
-
+		this.raceManager = new RaceManager(plugin);
 		loadData();
 
 	}
 
+	
+	// CHANGES GAME STATE
 	public void setGameState(GameState s) {
 		if (gameState == s) {
 			return;
@@ -186,16 +190,17 @@ public class GameManager {
 
 	// load data from config
 	private void loadData() {
-		raceData.reloadConfig();
-		min = raceData.getConfig().getInt("races." + raceName + ".min-players");
-		max = raceData.getConfig().getInt("races." + raceName + ".max-players");
-		startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
+		raceManager.reload();
+		min = raceManager.getMinPlayers(raceName);
+		max = raceManager.getMaxPlayers(raceName);
+		startList = raceManager.getStartLocations(raceName);
+
 	}
 
 	private boolean checkStartLocations(int players) {
 
-		if (raceData.getConfig().getStringList("races." + raceName + ".start-locations") != null) {
-			List<String> startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
+		if (raceManager.getStartLocations(raceName) != null) {
+			startList = raceManager.getStartLocations(raceName);
 			Bukkit.broadcastMessage(Utils.chat("&bThe start locations have been found."));
 			Bukkit.broadcastMessage(Utils.chat("&eThe start list size is: " + startList.size()));
 			Bukkit.broadcastMessage(Utils.chat("&eThe number of players is: " + players));
@@ -206,6 +211,7 @@ public class GameManager {
 			Bukkit.broadcastMessage(Utils.chat("&dThe number of players is: " + players));
 			return false;
 		} else {
+			Bukkit.broadcastMessage(Utils.chat("&4The start list is null"));
 			Bukkit.broadcastMessage(Utils.chat("&4The start list size is: " + startList.size()));
 			Bukkit.broadcastMessage(Utils.chat("&4The number of players is: " + players));
 			return false;
