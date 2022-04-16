@@ -119,6 +119,7 @@ public class TameListener implements Listener {
 
 			// removes horse
 			horseManager.removeHorse(p, horse);
+			horseManager.reload(); 
 
 			// send message
 			p.sendMessage(Utils.chat("&bYour dead horse has been removed from your gui"));

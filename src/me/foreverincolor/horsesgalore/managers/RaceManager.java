@@ -24,16 +24,21 @@ public class RaceManager {
 	}
 
 	// METHODS
-	public void reload() { 
+	public void reload() {
 		raceData.reloadConfig();
 	}
-	
-	public void createRace(String raceName) {
-		raceData.getConfig().set("races." + raceName, raceName);
-		raceData.saveConfig();
 
-		setMinPlayers(raceName, 2);
-		setMaxPlayers(raceName, 8);
+	public boolean createRace(String raceName) {
+		if (raceData.getConfig().contains("races." + raceName)) {
+			return false;
+		} else {
+			raceData.getConfig().set("races." + raceName, raceName);
+			raceData.saveConfig();
+
+			setMinPlayers(raceName, 2);
+			setMaxPlayers(raceName, 8);
+			return true;
+		}
 	}
 
 	/*
@@ -143,12 +148,20 @@ public class RaceManager {
 		List<String> startList = new ArrayList<String>();
 		if (raceData.getConfig().contains("races." + raceName + ".start-locations")) {
 			startList = raceData.getConfig().getStringList("races." + raceName + ".start-locations");
-		} else { 
-			startList = null; 
+		} else {
+			startList = null;
 		}
 
 		return startList;
 
+	}
+
+	public boolean exists(String raceName) {
+		reload();
+		if (raceData.getConfig().contains("races." + raceName))
+			return true;
+		else
+			return false;
 	}
 
 }

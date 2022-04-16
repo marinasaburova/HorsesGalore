@@ -66,8 +66,11 @@ public class RaceCommand implements CommandExecutor {
 					return true;
 				}
 
-				raceManager.createRace(args[1]);
-				p.sendMessage(Utils.chat("&aYour race " + args[1] + " &ahas been created"));
+				if (raceManager.createRace(args[1])) {
+					p.sendMessage(Utils.chat("&aYour race " + args[1] + " &ahas been created"));
+				} else {
+					p.sendMessage(Utils.chat("&cThis race already exists!"));
+				}
 				return true;
 			}
 
@@ -167,14 +170,14 @@ public class RaceCommand implements CommandExecutor {
 				}
 
 				// Check for valid input
-				
+
 				try {
 					raceManager.removeStart(args[1], Integer.parseUnsignedInt(args[2]));
 					p.sendMessage(Utils.chat("&aA starting location has been removed from " + args[1]));
 				} catch (NumberFormatException e) {
 					p.sendMessage(Utils.chat("&cPlease enter a valid index"));
 				}
-				return true; 
+				return true;
 			}
 
 			p.sendMessage(Utils.chat("&cThe command was not recognized."));

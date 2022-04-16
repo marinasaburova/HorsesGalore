@@ -38,11 +38,6 @@ public class GameCommand implements CommandExecutor {
 				return true;
 			}
 
-			if (args[0].equalsIgnoreCase("start")) {
-				gameManager.setGameState(GameState.STARTING);
-				return true;
-			}
-
 			if (args[0].equalsIgnoreCase("join")) {
 				gameManager.addPlayer(p);
 				return true;

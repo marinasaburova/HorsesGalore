@@ -17,12 +17,12 @@ import me.foreverincolor.horsesgalore.utils.Utils;
 public class GameManager {
 
 	private Main plugin;
-	
+
 	// Managers
 	private final PlayerManager playerManager;
 	private final HorseManager horseManager;
 	private final RaceManager raceManager;
-	
+
 	// Tasks
 	private GameStartCountdownTask gameStartCountdownTask;
 	private LobbyCountdownTask lobbyCountdownTask;
@@ -49,9 +49,15 @@ public class GameManager {
 
 	}
 
-	
 	// CHANGES GAME STATE
 	public void setGameState(GameState s) {
+		raceManager.reload();
+		
+		if (!raceManager.exists(raceName)) { 
+			Bukkit.broadcastMessage(Utils.chat("&cThis race does not exist!"));
+			return;
+		}
+		
 		if (gameState == s) {
 			return;
 		}
@@ -138,7 +144,7 @@ public class GameManager {
 
 			// add player to queue
 			players.add(p);
-			Bukkit.broadcastMessage(Utils.chat(p.getDisplayName() + " has joined the game!"));
+			Bukkit.broadcastMessage(Utils.chat("&a" + p.getDisplayName() + " has joined the game!"));
 			checkTimer();
 		}
 	}
@@ -201,21 +207,12 @@ public class GameManager {
 
 		if (raceManager.getStartLocations(raceName) != null) {
 			startList = raceManager.getStartLocations(raceName);
-			Bukkit.broadcastMessage(Utils.chat("&bThe start locations have been found."));
-			Bukkit.broadcastMessage(Utils.chat("&eThe start list size is: " + startList.size()));
-			Bukkit.broadcastMessage(Utils.chat("&eThe number of players is: " + players));
 			if (startList.size() >= players) {
 				return true;
 			} else
-				Bukkit.broadcastMessage(Utils.chat("&dThe start list size is: " + startList.size()));
-			Bukkit.broadcastMessage(Utils.chat("&dThe number of players is: " + players));
-			return false;
-		} else {
-			Bukkit.broadcastMessage(Utils.chat("&4The start list is null"));
-			Bukkit.broadcastMessage(Utils.chat("&4The start list size is: " + startList.size()));
-			Bukkit.broadcastMessage(Utils.chat("&4The number of players is: " + players));
-			return false;
+				return false;
 		}
+		return false; 
 	}
 
 	public PlayerManager getPlayerManager() {

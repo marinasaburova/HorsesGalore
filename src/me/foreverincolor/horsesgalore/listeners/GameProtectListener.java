@@ -1,6 +1,5 @@
 package me.foreverincolor.horsesgalore.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -12,7 +11,6 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 
 import me.foreverincolor.horsesgalore.managers.GameManager;
 import me.foreverincolor.horsesgalore.managers.GameState;
-import me.foreverincolor.horsesgalore.utils.Utils;
 
 public class GameProtectListener implements Listener {
 
@@ -44,7 +42,6 @@ public class GameProtectListener implements Listener {
 			if ((e.getDismounted() instanceof Horse || e.getDismounted() instanceof AbstractHorse)
 					&& (e.getEntity() instanceof Player)) {
 				e.setCancelled(true);
-				Bukkit.broadcastMessage(Utils.chat("The event has been cancelled"));
 			}
 		}
 	}

@@ -29,6 +29,11 @@ public class HorseManager {
 	// Generates file data if not existing, and syncs horse list and count if
 	// they're not the same. Should be called before anything where count is used,
 	// just to be safe.
+	
+	public void reload() {
+		horseData.reloadConfig();
+	}
+	
 	private void checkFile(OfflinePlayer p) {
 		List<String> horseList = getHorseList(p);
 		int count = horseList.size();
@@ -48,6 +53,7 @@ public class HorseManager {
 
 	// Gets the list of horses for the player
 	public List<String> getHorseList(OfflinePlayer p) {
+		reload(); 
 		List<String> horseList = new ArrayList<String>();
 		horseList = horseData.getConfig().getStringList("players." + p.getUniqueId().toString() + ".horse-list");
 		return horseList;
@@ -82,6 +88,7 @@ public class HorseManager {
 		horseList.add(h.getUniqueId().toString());
 		horseData.getConfig().set("players." + p.getUniqueId().toString() + ".horse-list", horseList);
 		horseData.saveConfig();
+		reload();
 		return true;
 	}
 
@@ -101,5 +108,6 @@ public class HorseManager {
 
 		horseData.getConfig().set("players." + p.getUniqueId().toString() + ".horse-list", horseList);
 		horseData.saveConfig();
+		reload(); 
 	}
 }

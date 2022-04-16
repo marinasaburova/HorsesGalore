@@ -36,11 +36,7 @@ public class PickHorseGUI implements Listener {
 	// Creates GUI of player being viewed
 	public Inventory viewRaceHorses(Player p) {
 		Inventory inv = Bukkit.createInventory(null, 36, inventory_name);
-		String horseName;
-		String horseCoords;
-		String horseSpeed;
-		String horseJump;
-		String horseAppearance;
+		String horseName, horseSpeed, horseJump, horseAppearance, saddle;
 
 		List<String> horseList = new ArrayList<String>();
 		horseList = horseManager.getHorseList(p);
@@ -67,11 +63,10 @@ public class PickHorseGUI implements Listener {
 			horseSpeed = "&aSpeed: "
 					+ String.format("%.4f", horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue());
 			horseJump = "&aJump Strength: " + String.format("%.4f", horse.getJumpStrength());
-			horseCoords = "&aLocation: " + Math.round(horse.getLocation().getX()) + " "
-					+ Math.round(horse.getLocation().getY()) + " " + Math.round(horse.getLocation().getZ());
+			saddle = horse.getInventory().getSaddle() != null ? "&aWearing Saddle" : "&cNo Saddle"; 
 
 			Utils.createInvItem(inv, i, "HORSE_SPAWN_EGG", horseName, horseAppearance, horseSpeed, horseJump,
-					horseCoords);
+					saddle);
 		}
 
 		// Sets the inventory
@@ -84,18 +79,16 @@ public class PickHorseGUI implements Listener {
 
 		// Finds horse that was clicked
 		Horse horse = horseManager.getHorse(p, slot);
-		
+
 		// Checks if horse has a saddle
-		if (horse.getInventory().getSaddle() != null) { 
+		if (horse.getInventory().getSaddle() != null) {
 			// Adds horse to game
 			gameManager.addHorse(p, horse);
 			p.closeInventory();
-		} else { 
-			p.closeInventory(); 
+		} else {
+			p.closeInventory();
 			p.sendMessage(Utils.chat("&cYour horse is not wearing a saddle! Please put one on to be able to race!"));
 		}
-		
-
 
 	}
 
