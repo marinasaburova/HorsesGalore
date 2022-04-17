@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.foreverincolor.horsesgalore.gui.HorseDetailsGUI;
 import me.foreverincolor.horsesgalore.gui.HorsesGUI;
+import me.foreverincolor.horsesgalore.gui.MinigameGUI;
 import me.foreverincolor.horsesgalore.gui.PickHorseGUI;
 
 /* 
@@ -70,6 +71,10 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 
+		}
+		
+		if (title.contentEquals(MinigameGUI.inventory_name)) { 
+			e.setCancelled(true);
 		}
 
 	}

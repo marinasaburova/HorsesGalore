@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.foreverincolor.horsesgalore.Main;
+import me.foreverincolor.horsesgalore.gui.MinigameGUI;
 import me.foreverincolor.horsesgalore.managers.RaceManager;
 import me.foreverincolor.horsesgalore.utils.Utils;
 
@@ -41,8 +42,8 @@ public class RaceCommand implements CommandExecutor {
 
 			// View all available races
 			if (args.length == 0) {
-				p.sendMessage(Utils.chat("&dIn the future, you will see a list of all races here."));
-
+				MinigameGUI inv = new MinigameGUI(plugin, raceManager);
+				p.openInventory(inv.viewMinigames(p));
 				return true;
 			}
 
