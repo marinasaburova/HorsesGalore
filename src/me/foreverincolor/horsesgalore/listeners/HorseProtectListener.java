@@ -11,10 +11,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.inventory.AbstractHorseInventory;
 import org.bukkit.inventory.HorseInventory;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
 import me.foreverincolor.horsesgalore.utils.Utils;
@@ -34,7 +36,7 @@ public class HorseProtectListener implements Listener {
 	public void onHurt(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof Horse || e.getEntity() instanceof AbstractHorse
 				|| e.getEntity() instanceof ChestedHorse) {
-			
+
 			AbstractHorse horse = (AbstractHorse) e.getEntity();
 			Entity damager = e.getDamager();
 
@@ -104,7 +106,23 @@ public class HorseProtectListener implements Listener {
 		}
 	}
 
-	// Prevents others from leading away
-	// Lead event
+	// Prevents others from leading away your horse
+	@EventHandler
+	public void onLead(PlayerInteractEntityEvent e) {
+		// only for horses
+		if (e.getRightClicked() instanceof Horse) {
+			Player p = e.getPlayer();
+			Horse h = (Horse) e.getRightClicked();
+
+			ItemStack lead = Utils.createItem("LEAD");
+
+			if ((h.isTamed()) && (p.getInventory().getItemInMainHand().equals(lead))) {
+				if (h.getOwner() != p) {
+					e.setCancelled(true);
+					p.sendMessage(Utils.chat("&cYou cannot lead other player's horses!"));
+				}
+			}
+		}
+	}
 
 }

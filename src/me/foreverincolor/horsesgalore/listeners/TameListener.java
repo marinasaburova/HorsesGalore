@@ -72,7 +72,7 @@ public class TameListener implements Listener {
 				&& (clicker.getInventory().getItemInMainHand().equals(debugApple))) {
 			AbstractHorse horse = (AbstractHorse) clicked;
 
-			if (horse.isTamed()) {
+			if ((horse.isTamed()) && (horse.getOwner()== clicker)) {
 				OfflinePlayer p = (OfflinePlayer) horse.getOwner();
 				String horseUUID = horse.getUniqueId().toString();
 
